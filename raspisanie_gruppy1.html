@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Розклад групи 28-ОПС-26-Б</title>
+    <style>
+        :root {
+            --bg: #f4f7fa;
+            --card: #fff;
+            --text: #17212b;
+            --muted: #657482;
+            --line: #d7e0e7;
+            --blue: #1686e8;
+            --red: #ffdddd;
+            --redline: #d93025;
+            --gray: #eceff1;
+            --grayline: #aab4bb;
+            --green: #e8f4e8;
+            --greenline: #79a97b
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: auto;
+            padding: 18px 14px 40px
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 14px
+        }
+
+        .title {
+            font-size: 25px;
+            font-weight: 750
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 9px 13px;
+            border: 1px solid #cbd9e5;
+            border-radius: 10px;
+            background: #eaf3ff;
+            color: #075ca8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px
+        }
+
+        .notice {
+            display: none;
+            background: #fff4d6;
+            border: 1px solid #efd27a;
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin: 12px 0 18px;
+            font-weight: 700
+        }
+
+        .days {
+            display: grid;
+            gap: 18px
+        }
+
+        .day {
+            scroll-margin-top: 8px
+        }
+
+        .dayhead {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: var(--bg);
+            padding: 13px 8px 12px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg);
+            gap: 10px
+        }
+
+        .daytitle {
+            font-size: 21px;
+            font-weight: 800;
+            text-transform: capitalize
+        }
+
+        .daytag {
+            font-size: 12px;
+            font-weight: 700;
+            color: #075ca8;
+            background: #e2f0ff;
+            border-radius: 30px;
+            padding: 6px 10px;
+            white-space: nowrap
+        }
+
+       .lessons {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-top: 10px;
+    position: relative;
+}
+
+        .lesson {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--line);
+            border-radius: 13px;
+            padding: 15px 16px;
+            display: grid;
+            grid-template-columns: 105px minmax(0, 1fr) auto;
+            gap: 13px;
+            align-items: center;
+            min-height: 104px
+        }
+
+        .lesson.current {
+            background: var(--red);
+            border-color: #ff9994;
+            border-left-color: var(--redline);
+            position: sticky;
+            top: 62px;
+            z-index: 10;
+        }
+
+        .lesson.past {
+            background: var(--gray);
+            border-color: #d8dde0;
+            border-left-color: var(--grayline);
+            color: #727b82
+        }
+
+        .lesson.future {
+            border-left-color: var(--greenline)
+        }
+
+        .times {
+            font-size: 16px;
+            font-weight: 750;
+            line-height: 1.6;
+            white-space: nowrap
+        }
+
+        .lesson-name {
+            font-size: 18px;
+            font-weight: 750;
+            margin-bottom: 7px
+        }
+
+        .teacher {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 4px
+        }
+
+        .note {
+            font-size: 14px;
+            margin-top: 8px;
+            overflow-wrap: anywhere
+        }
+
+        .links {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            justify-content: flex-end
+        }
+
+        .link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #eaf3ff;
+            color: #0875d1;
+            text-decoration: none;
+            font-size: 19px
+        }
+
+        .link span {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0)
+        }
+
+        .break-pill {
+    align-self: center;
+    position: relative;
+    z-index: 2;
+    margin-top: -32px;
+    margin-bottom: -32px;
+    padding: 6px 15px;
+    border: 1px solid #b7d8f5;
+    border-radius: 999px;
+    background: #e7f3ff;
+    color: #1768a6;
+    font-size: 12px;
+    font-weight: 750;
+    box-shadow: 0 2px 5px #00000010;
+    white-space: nowrap;
+}
+
+.break-pill.no-break {
+    margin-top: -18px;
+    margin-bottom: -18px;
+    padding: 2px 10px;
+    font-size: 11px;
+
+    background: #f1f2f3;
+    border-color: #d8dde0;
+    color: #7b858c;
+}
+
+        .day-empty {
+            padding: 14px 16px;
+            color: var(--muted);
+            border: 1px dashed var(--line);
+            border-radius: 12px;
+            background: #ffffff90
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center
+        }
+
+        .legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 12px;
+            margin: 12px 0
+        }
+
+        .dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 3px;
+            margin-right: 5px
+        }
+
+        .end {
+            padding: 20px;
+            background: #fff4d6;
+            border: 1px solid #efd27a;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700
+        }
+
+        .meet-code {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 74px;
+    height: 20px;
+    padding: 0 7px;
+
+    border: 1px solid #d5dbe0;
+    border-radius: 999px;
+
+    background: #f1f3f5;
+    color: #7d858c;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    line-height: 1;
+}
+
+
+        @media(max-width:600px) {
+            .wrap {
+                padding: 12px 9px 28px
+            }
+
+            .title {
+                font-size: 21px
+            }
+
+            .daytitle {
+                font-size: 18px
+            }
+
+            .lesson {
+                grid-template-columns: 76px minmax(0, 1fr) auto;
+                gap: 7px;
+                padding: 12px 9px;
+            }
+
+            .lesson.current {
+                position: sticky;
+                top: 58px;
+                z-index: 5;
+            }
+
+            .break-pill {
+                font-size: 11px;
+                padding: 5px 12px
+            }
+
+            .times {
+                font-size: 13px
+            }
+
+            .lesson-name {
+                font-size: 16px
+            }
+
+            .teacher,
+            .note {
+                font-size: 13px
+            }
+
+
+            .links {
+                grid-column: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: nowrap;
+                gap: 6px;
+            }
+
+            .link {
+                width: 34px;
+                height: 34px;
+                flex: 0 0 34px;
+                font-size: 17px;
+            }
+
+            .dayhead {
+                padding: 11px 5px
+            }
+
+            .daytag {
+                font-size: 11px
+            }
+
+            .top .actions {
+                width: 100%
+            }
+
+            .top .btn {
+                flex: 1
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <header class="top">
+            <div>
+                <div class="title">📚 Розклад групи 28-ОПС-26-Б</div>
+                <div class="subtitle" id="period">Перше півріччя · до 1 січня 2027 року</div>
+            </div>
+            <div class="actions"><a class="btn" id="globalMeet" href="https://meet.google.com/" target="_blank"
+                    rel="noopener">
+                    <span class="meet-icon">
+                        <svg viewBox="0 0 48 48" width="22" height="22">
+                            <path fill="#00832d" d="M4 12a4 4 0 0 1 4-4h20v32H8a4 4 0 0 1-4-4z" />
+                            <path fill="#00ac47" d="M28 16l12-8v32l-12-8z" />
+                            <path fill="#0066da" d="M4 12h24v24H4z" />
+                            <path fill="#ffba00" d="M28 16l12-8v32l-12-8z" />
+                            <path fill="#ea4335" d="M28 16h12v16H28z" />
+                        </svg>
+                    </span>
+                    Google Meet
+                </a><a class="btn" id="globalClassroom" href="https://classroom.google.com/" target="_blank"
+                    rel="noopener">🎓 Google Classroom</a></div>
+        </header>
+        <div class="legend"><span><i class="dot" style="background:#d93025"></i>Триває пара</span><span><i class="dot"
+                    style="background:#aab4bb"></i>Пара завершилася</span><span><i class="dot"
+                    style="background:#79a97b"></i>Попереду</span></div>
+        <div id="notice" class="notice" role="status"></div>
+        <div id="days" class="days"></div>
+        <div id="endNotice" class="end" hidden>Термін дії розкладу завершився. Уточніть актуальний розклад у коледжі або
+            в повідомленнях групи.</div>
+        <div class="footer">Розклад є плановим. Про скасування та перенесення занять дізнавайтеся з повідомлень групи.
+        </div>
+    </main>
+    <script>
+        // Все данные расписания находятся в этом файле. Замените URL-заглушки на реальные ссылки.
+        const CONFIG = { semesterEnd: '2027-01-01', referenceMonday: '2026-10-05', referenceMondayType: 'A' };
+        const TIMES = [['08:30', '09:50'], ['10:05', '11:25'], ['11:55', '13:15'], ['13:30', '14:50'], ['15:00', '16:20']];
+        const MEET_URL = 'https://meet.google.com/';
+        const CLASSROOM_URL = 'https://classroom.google.com/';
+     const subject = (
+    name,
+    teacher = '',
+    note = '',
+    meet = MEET_URL,
+    classroom = CLASSROOM_URL
+) => ({
+    name,
+    teacher,
+    note,
+    meet,
+    classroom
+});
+    
+const SCHEDULE = {
+
+    mondayA: [
+        subject('Алгоритмізація', 'Єрьомін Микита Васильович', '', 'https://meet.google.com/jmd-vtsx-vhn', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODg0MjIwNTE0OTUw'),
+        subject('Інформатика', 'Кравцова Анна Юріївна', '', 'https://meet.google.com/zzp-tpoe-ibu', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc4MDM0MDE4MzA0'),
+        subject('Алгоритмізація', 'Єрьомін Микита Васильович', '', 'https://meet.google.com/jmd-vtsx-vhn', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODg0MjIwNTE0OTUw'),
+        subject('Дискретна матем.', 'Сігова Олена Вячеславівна', '', 'https://meet.google.com/gbc-rpbc-vtv', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2ODU1ODY3ODUw')
+    ],
+
+    mondayB: [
+        subject('Іноземна мова', 'Волоснікова Анна Євгенівна', '', 'https://meet.google.com/wnv-jwqm-krb', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2OTk5ODYwNDI0'),
+        subject('Алгоритмізація', 'Єрьомін Микита Васильович', '', 'https://meet.google.com/jmd-vtsx-vhn', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODg0MjIwNTE0OTUw'),
+        subject('Алгоритмізація', 'Єрьомін Микита Васильович', '', 'https://meet.google.com/jmd-vtsx-vhn', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODg0MjIwNTE0OTUw'),
+        subject('Дискретна матем.', 'Сігова Олена Вячеславівна', '', 'https://meet.google.com/gbc-rpbc-vtv', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2ODU1ODY3ODUw')
+    ],
+
+    tuesday: [
+        subject('Офісне програмне забезпечення', 'Кравцова Анна Юріївна', '', 'https://meet.google.com/zzp-tpoe-ibu', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc4MDM0MDE4MzA0'),
+        subject('Основи екології', 'Перекрестова Таміла Валентинівна', '', 'https://meet.google.com/mwm-ttdc-xig', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2Nzg3NTg3NTg2')
+    ],
+
+    wednesday: [
+        subject('Іноземна мова', 'Волоснікова Анна Євгенівна', '', 'https://meet.google.com/wnv-jwqm-krb', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2OTk5ODYwNDI0'),
+        subject('Економ. теорія', 'Махуха О. М.', '', 'https://meet.google.com', ''),
+        subject('Дискретна матем.', 'Сігова Олена Вячеславівна', '', 'https://meet.google.com/gbc-rpbc-vtv', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2ODU1ODY3ODUw')
+    ],
+
+    thursday: [
+        subject('Операційні системи', 'Сігова Олена Вячеславівна', '', 'https://meet.google.com/gbc-rpbc-vtv', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2OTAzMTUzNDg4'),
+        subject('Видатні особистості', 'Сливка М. І.', '', 'https://meet.google.com/bzo-nver-rtk', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODI2MzAwODg1Njkx'),
+        subject('Алгоритмізація', 'Єрьомін Микита Васильович', '', 'https://meet.google.com/jmd-vtsx-vhn', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODg0MjIwNTE0OTUw')
+    ],
+
+    friday: [
+        subject('Фізичне виховання', 'Черненко Сергій Олександрович', '', 'https://meet.google.com/mpo-wxdw-cpb', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODg2MTU0NDI5ODQx'),
+        subject('Операційні системи', 'Сігова Олена Вячеславівна', '', 'https://meet.google.com/gbc-rpbc-vtv', 'https://classroom.google.com/w/ODc2NTM0NTM3NDE0/tc/ODc2OTAzMTUzNDg4')
+    ]
+
+};
+      
+        function localDate(s) { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d, 12, 0, 0) }
+        function dayKey(d) { return ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][d.getDay()] }
+        function fmtDate(d) { return new Intl.DateTimeFormat('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' }).format(d) }
+        function iso(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
+        function minutes(s) { const [h, m] = s.split(':').map(Number); return h * 60 + m }
+        function mondayType(d) { const ref = localDate(CONFIG.referenceMonday); const cur = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12); const refMon = new Date(ref); refMon.setDate(refMon.getDate() - ((refMon.getDay() + 6) % 7)); const curMon = new Date(cur); curMon.setDate(curMon.getDate() - ((curMon.getDay() + 6) % 7)); const weeks = Math.round((curMon - refMon) / 604800000); return Math.abs(weeks) % 2 === 0 ? CONFIG.referenceMondayType : (CONFIG.referenceMondayType === 'A' ? 'B' : 'A') }
+        function scheduleFor(d) { const key = dayKey(d); if (key === 'monday') return mondayType(d) === 'A' ? SCHEDULE.mondayA : SCHEDULE.mondayB; return SCHEDULE[key] || [] }
+        
+       function timesFor(d) {
+    if (d.getDay() === 4)
+        return [
+            ['10:00', '11:20'],
+            ['12:10', '13:30'],
+            ['13:40', '15:00']
+        ];
+
+    if (d.getDay() === 3)
+        return [
+            ['10:05', '11:25'],
+            ['11:55', '13:15'],
+            ['13:30', '14:50']
+        ];
+
+    if (d.getDay() === 2)
+        return [
+            ['10:05', '11:25'],
+            ['11:55', '13:15']
+        ];
+
+    if (d.getDay() === 5)
+        return [
+            ['10:05', '11:25'],
+            ['11:55', '13:15']
+        ];
+
+    return TIMES;
+}
+        
+        function lessonState(d, start, end) { const now = new Date(); now.setHours(10, 30, 0, 0); if (iso(d) !== iso(now)) return d < new Date(now.getFullYear(), now.getMonth(), now.getDate()) ? 'past' : 'future'; const n = now.getHours() * 60 + now.getMinutes(); if (n >= minutes(end)) return 'past'; if (n >= minutes(start)) return 'current'; return 'future' }
+        
+        function makeLink(url, label, title) { const a = document.createElement('a'); a.className = 'link'; a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.title = title; a.setAttribute('aria-label', title); a.textContent = label; return a }
+        
+        function getMeetCode(url) {
+    if (!url) return '';
+
+    const prefix = 'https://meet.google.com/';
+
+    if (!url.startsWith(prefix)) return '';
+
+    const code = url
+        .substring(prefix.length)
+        .split(/[?#/]/)[0]
+        .trim();
+
+    return code;
+}
+
+        function addBreak(container, prevEnd, nextStart) {
+
+    const gap = minutes(nextStart) - minutes(prevEnd);
+
+    const pill = document.createElement('div');
+    pill.className = 'break-pill';
+
+    if (gap <= 0) {
+        pill.textContent = 'Перерви немає';
+        pill.classList.add('no-break');
+    } else {
+        pill.textContent = `Перерва ${gap} хв`;
+    }
+
+    container.appendChild(pill);
+}
+        
+        function render() {
+            const now = new Date(); const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12); const end = localDate(CONFIG.semesterEnd); const daysRoot = document.getElementById('days'); const notice = document.getElementById('notice'); daysRoot.innerHTML = ''; notice.style.display = 'none'; if (today >= end) { document.getElementById('endNotice').hidden = false; document.getElementById('endNotice').textContent = 'Термін дії розкладу завершився. Уточніть актуальний розклад у коледжі або в повідомленнях групи.'; return } document.getElementById('endNotice').hidden = true;
+            let dates = []; if (today.getDay() === 0 || today.getDay() === 6) { notice.textContent = 'Сьогодні занять немає. Нижче — розклад на наступні 5 навчальних днів.'; notice.style.display = 'block' } let d = new Date(today); if (today.getDay() === 0 || today.getDay() === 6) d.setDate(d.getDate() + 1); while (dates.length < 5) { if (d.getDay() !== 0 && d.getDay() !== 6 && d < end) dates.push(new Date(d)); d.setDate(d.getDate() + 1) }
+            if (!dates.length) { document.getElementById('endNotice').hidden = false; document.getElementById('endNotice').textContent = 'Термін дії розкладу завершився. Уточніть актуальний розклад у коледжі або в повідомленнях групи.'; return }
+            dates.forEach((d) => {
+                const section = document.createElement('section'); section.className = 'day'; section.id = 'day-' + iso(d); const head = document.createElement('div'); head.className = 'dayhead'; const title = document.createElement('div'); title.className = 'daytitle'; title.textContent = fmtDate(d); head.appendChild(title); if (iso(d) === iso(today)) { const tag = document.createElement('span'); tag.className = 'daytag'; tag.textContent = 'Сьогодні'; head.appendChild(tag) } else if (d.getDay() === 1) { const tag = document.createElement('span'); tag.className = 'daytag'; tag.textContent = 'Понеділок ' + mondayType(d); head.appendChild(tag) } section.appendChild(head); const lessons = document.createElement('div'); lessons.className = 'lessons'; const data = scheduleFor(d); const dayTimes = timesFor(d); let rendered = 0; let previousEnd = null;
+                // Виховна година в четвер: розміщуємо між другою та третьою парами за розкладом.
+                const pairNumbers = d.getDay() === 1 ? [1, 2, 3, 4] : d.getDay() === 2 ? [2, 3] : d.getDay() === 3 ? [2, 3, 4] : d.getDay() === 4 ? [2, 3, 4] : d.getDay() === 5 ? [2, 3] : []; const entries = data.map((item, i) => ({ item, start: dayTimes[i]?.[0] || TIMES[i][0], end: dayTimes[i]?.[1] || TIMES[i][1], pair: pairNumbers[i] || i + 1 })).filter(e => e.item && !e.item.empty);
+               if (d.getDay() === 4) {
+    entries.splice(1, 0, {
+        special: true,
+        start: '11:20',
+        end: '11:40',
+        pair: 0,
+        meet: 'https://meet.google.com/jqs-kpsy-ouq'
+    });
+}
+                entries.forEach((entry) => {
+                   if (previousEnd) addBreak(lessons, previousEnd, entry.start);
+
+const card = document.createElement('article');
+
+if (entry.special) {
+
+    card.className = 'lesson ' + lessonState(d, entry.start, entry.end);
+
+    card.style.background = '#eeeaf4';
+    card.style.borderColor = '#d8d1e2';
+    card.style.borderLeftColor = '#9b8faf';
+
+    // Левая колонка — время
+    const time = document.createElement('div');
+    time.className = 'times';
+    time.innerHTML = `${entry.start}<br>${entry.end}`;
+    card.appendChild(time);
+
+    // Центральная часть
+    const info = document.createElement('div');
+
+    const name = document.createElement('div');
+    name.className = 'lesson-name';
+    name.textContent = 'Виховна година';
+    info.appendChild(name);
+
+    const teacher = document.createElement('div');
+    teacher.className = 'teacher';
+    teacher.textContent = '♙ Лавренчук Андрій Андрійович';
+    info.appendChild(teacher);
+
+    card.appendChild(info);
+
+    // Правая колонка — только Google Meet
+    const links = document.createElement('div');
+    links.className = 'links';
+
+
+
+   const meetUrl = entry.meet || MEET_URL;
+
+const meetLink = makeLink(
+    meetUrl,
+    '🎥',
+    'Відкрити Google Meet'
+);
+
+links.appendChild(meetLink);
+
+const meetCode = getMeetCode(meetUrl);
+
+if (meetCode) {
+    const code = document.createElement('span');
+    code.className = 'meet-code';
+    code.textContent = meetCode;
+    links.appendChild(code);
+}
+    
+
+
+
+    card.appendChild(links);
+
+} else {
+
+    card.className =
+        'lesson ' + lessonState(d, entry.start, entry.end);
+
+    const time = document.createElement('div');
+    time.className = 'times';
+    time.innerHTML =
+        `${entry.pair}-а пара<br>${entry.start}<br>${entry.end}`;
+
+    card.appendChild(time);
+
+    const info = document.createElement('div');
+
+    const name = document.createElement('div');
+    name.className = 'lesson-name';
+    name.textContent = entry.item.name;
+    info.appendChild(name);
+
+    if (entry.item.teacher) {
+        const teacher = document.createElement('div');
+        teacher.className = 'teacher';
+        teacher.textContent = '♙ ' + entry.item.teacher;
+        info.appendChild(teacher);
+    }
+
+    card.appendChild(info);
+
+    const links = document.createElement('div');
+    links.className = 'links';
+
+const meetUrl = entry.item.meet || MEET_URL;
+
+const meetLink = makeLink(
+    meetUrl,
+    '🎥',
+    'Відкрити Google Meet'
+);
+
+links.appendChild(meetLink);
+
+const meetCode = getMeetCode(meetUrl);
+
+if (meetCode) {
+    const code = document.createElement('span');
+    code.className = 'meet-code';
+    code.textContent = meetCode;
+    links.appendChild(code);
+}
+
+links.appendChild(
+    makeLink(
+        entry.item.classroom || CLASSROOM_URL,
+        '🎓',
+        'Відкрити Google Classroom'
+    )
+);
+   
+    card.appendChild(links);
+}
+
+lessons.appendChild(card);
+previousEnd = entry.end;
+rendered++; 
+                });
+                if (!rendered) { const msg = document.createElement('div'); msg.className = 'day-empty'; msg.textContent = 'Занять за цим розкладом немає.'; lessons.appendChild(msg) } section.appendChild(lessons); daysRoot.appendChild(section)
+            });
+            if (today.getDay() !== 0 && today.getDay() !== 6) {
+
+                const cur = daysRoot.querySelector('.lesson.current');
+
+                if (cur) {
+                    const header = cur.closest('.day').querySelector('.dayhead');
+                    const offset = header.getBoundingClientRect().height + 8;
+
+                    const top = cur.getBoundingClientRect().top +
+                        window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: top,
+                        behavior: 'auto'
+                    });
+                }
+            }
+        } // закрываем функцию render
+
+       render();
+
+setTimeout(() => {
+    const currentLesson = document.querySelector('.lesson.current');
+
+    if (currentLesson) {
+        const y =
+            currentLesson.getBoundingClientRect().top +
+            window.scrollY -
+            75;
+
+        window.scrollTo({
+            top: y,
+            behavior: 'auto'
+        });
+    }
+}, 150);
+
+setInterval(() => {
+    const now = new Date();
+
+    document.querySelectorAll('.lesson').forEach(card => {
+        const timeText = card.querySelector('.times')?.textContent;
+        if (!timeText) return;
+
+        const match = timeText.match(/(\d{2}:\d{2})\s+(\d{2}:\d{2})/);
+        if (!match) return;
+
+        const start = minutes(match[1]);
+        const end = minutes(match[2]);
+        const current = now.getHours() * 60 + now.getMinutes();
+
+        const day = card.closest('.day');
+        const date = day.id.replace('day-', '');
+
+        const isToday = date === iso(now);
+
+        card.classList.remove('current', 'past', 'future');
+
+        if (!isToday || current >= end) {
+            card.classList.add(
+                isToday || date < iso(now)
+                    ? 'past'
+                    : 'future'
+            );
+        } else if (current >= start) {
+            card.classList.add('current');
+        } else {
+            card.classList.add('future');
+        }
+    });
+}, 30000); 
+
+    </script>
+</body>
+
+</html>
