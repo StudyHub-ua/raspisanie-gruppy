@@ -527,7 +527,7 @@ const SCHEDULE = {
     return TIMES;
 }
         
-        function lessonState(d, start, end) { const now = new Date(); now.setHours(10, 30, 0, 0); if (iso(d) !== iso(now)) return d < new Date(now.getFullYear(), now.getMonth(), now.getDate()) ? 'past' : 'future'; const n = now.getHours() * 60 + now.getMinutes(); if (n >= minutes(end)) return 'past'; if (n >= minutes(start)) return 'current'; return 'future' }
+        function lessonState(d, start, end) { const now = new Date(); if (iso(d) !== iso(now)) return d < new Date(now.getFullYear(), now.getMonth(), now.getDate()) ? 'past' : 'future'; const n = now.getHours() * 60 + now.getMinutes(); if (n >= minutes(end)) return 'past'; if (n >= minutes(start)) return 'current'; return 'future' }
         
         function makeLink(url, label, title) { const a = document.createElement('a'); a.className = 'link'; a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.title = title; a.setAttribute('aria-label', title); a.textContent = label; return a }
         
